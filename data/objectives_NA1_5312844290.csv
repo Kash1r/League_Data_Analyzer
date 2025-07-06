@@ -1,0 +1,66 @@
+Match ID:,NA1_5312844290
+Game Duration:,1883
+Queue:,420
+Game Mode:,CLASSIC
+Winner:,Team 100
+Surrendered:,No
+""
+Gold Summary (Minute-by-Minute)
+Minute,Team 100 Gold,Team 200 Gold,Gold Diff (100-200)
+1,"2,505","2,505",+0
+2,"3,104","2,991",+113
+3,"4,584","5,655","-1,071"
+4,"6,225","7,684","-1,459"
+5,"7,725","9,296","-1,571"
+6,"9,289","11,718","-2,429"
+7,"11,502","13,241","-1,739"
+8,"13,397","14,804","-1,407"
+9,"15,203","16,404","-1,201"
+10,"17,649","18,358",-709
+11,"19,585","20,385",-800
+12,"21,920","21,733",+187
+13,"24,902","24,669",+233
+14,"26,799","26,212",+587
+15,"28,365","28,257",+108
+16,"30,344","29,741",+603
+17,"32,767","33,027",-260
+18,"34,081","35,800","-1,719"
+19,"35,980","38,308","-2,328"
+20,"37,691","40,966","-3,275"
+21,"41,111","42,895","-1,784"
+22,"42,755","44,659","-1,904"
+23,"46,315","45,717",+598
+24,"48,665","47,133","+1,532"
+25,"51,427","49,709","+1,718"
+26,"53,132","51,273","+1,859"
+27,"55,775","53,520","+2,255"
+28,"59,295","54,974","+4,321"
+29,"62,729","56,412","+6,317"
+30,"64,913","58,223","+6,690"
+""
+Objective Timeline
+Time,Team,Objective,Details
+11:04,Team 200,Air Dragon,
+12:02,Neutral,Bot Lane Outer Turret,Team 100's building
+12:05,Neutral,Top Lane Outer Turret,Team 200's building
+15:38,Team 100,Monster,
+17:35,Neutral,Bot Lane Inner Turret,Team 100's building
+17:50,Team 200,Hextech Dragon,
+17:51,Neutral,Dragon Soul Given,
+18:24,Neutral,Bot Lane Outer Turret,Team 200's building
+19:38,Neutral,Top Lane Outer Turret,Team 100's building
+20:40,Neutral,Mid Lane Outer Turret,Team 200's building
+21:08,Neutral,Mid Lane Outer Turret,Team 100's building
+23:05,Team 100,Fire Dragon,
+24:42,Neutral,Bot Lane Base Turret,Team 100's building
+26:31,Team 200,Monster,
+27:00,Neutral,Top Lane Inner Turret,Team 200's building
+27:04,Neutral,Mid Lane Inner Turret,Team 200's building
+28:31,Neutral,Bot Lane Inner Turret,Team 200's building
+28:38,Neutral,Bot Lane Base Turret,Team 200's building
+28:40,Team 100,Fire Dragon,
+28:45,Neutral,Inhibitor Building (Bot Lane),Team 200's building
+30:39,Neutral,Mid Lane Base Turret,Team 200's building
+31:10,Neutral,Mid Lane Nexus Turret,Team 200's building
+31:15,Neutral,Mid Lane Nexus Turret,Team 200's building
+31:18,Neutral,Inhibitor Building (Mid Lane),Team 200's building

@@ -1,0 +1,33 @@
+Match ID:,NA1_5305025329
+Game Duration:,960
+Queue:,420
+Game Mode:,CLASSIC
+Winner:,Team 100
+Surrendered:,No
+""
+Gold Summary (Minute-by-Minute)
+Minute,Team 100 Gold,Team 200 Gold,Gold Diff (100-200)
+1,"2,500","2,500",+0
+2,"2,912","2,940",-28
+3,"4,903","5,010",-107
+4,"6,296","7,242",-946
+5,"8,249","8,901",-652
+6,"9,990","10,382",-392
+7,"12,215","11,728",+487
+8,"14,753","13,857",+896
+9,"16,533","15,308","+1,225"
+10,"18,582","17,031","+1,551"
+11,"20,993","19,121","+1,872"
+12,"23,750","20,840","+2,910"
+13,"25,751","22,746","+3,005"
+14,"28,660","24,077","+4,583"
+15,"30,742","26,063","+4,679"
+16,"34,457","27,069","+7,388"
+""
+Objective Timeline
+Time,Team,Objective,Details
+11:06,Team 100,Fire Dragon,
+14:13,Neutral,Bot Lane Outer Turret,Team 200's building
+14:27,Neutral,Top Lane Outer Turret,Team 100's building; 490 gold
+15:15,Neutral,Mid Lane Outer Turret,Team 200's building
+15:45,Team 100,Monster,

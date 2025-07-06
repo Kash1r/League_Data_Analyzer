@@ -1,0 +1,33 @@
+Match ID:,NA1_5301901032
+Game Duration:,916
+Queue:,420
+Game Mode:,CLASSIC
+Winner:,Team 100
+Surrendered:,No
+""
+Gold Summary (Minute-by-Minute)
+Minute,Team 100 Gold,Team 200 Gold,Gold Diff (100-200)
+1,"2,500","2,500",+0
+2,"3,018","3,046",-28
+3,"4,926","4,480",+446
+4,"7,390","6,157","+1,233"
+5,"9,483","7,976","+1,507"
+6,"10,995","9,241","+1,754"
+7,"13,347","10,432","+2,915"
+8,"15,186","12,144","+3,042"
+9,"17,542","13,380","+4,162"
+10,"20,281","15,484","+4,797"
+11,"21,912","16,820","+5,092"
+12,"24,694","18,195","+6,499"
+13,"26,773","19,515","+7,258"
+14,"29,096","20,719","+8,377"
+15,"31,906","22,095","+9,811"
+""
+Objective Timeline
+Time,Team,Objective,Details
+5:21,Team 100,Hextech Dragon,
+10:55,Team 100,Chemtech Dragon,
+10:55,Neutral,Dragon Soul Given,
+11:30,Neutral,Bot Lane Outer Turret,Team 200's building
+14:11,Neutral,Mid Lane Outer Turret,Team 200's building
+14:46,Neutral,Top Lane Outer Turret,Team 200's building

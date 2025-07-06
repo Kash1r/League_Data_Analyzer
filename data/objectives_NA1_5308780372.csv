@@ -1,0 +1,60 @@
+Match ID:,NA1_5308780372
+Game Duration:,1693
+Queue:,420
+Game Mode:,CLASSIC
+Winner:,Team 200
+Surrendered:,No
+""
+Gold Summary (Minute-by-Minute)
+Minute,Team 100 Gold,Team 200 Gold,Gold Diff (100-200)
+1,"2,500","2,500",+0
+2,"3,005","3,070",-65
+3,"4,745","5,433",-688
+4,"7,107","7,506",-399
+5,"8,707","8,766",-59
+6,"9,826","10,353",-527
+7,"12,842","12,267",+575
+8,"14,781","13,682","+1,099"
+9,"17,191","15,155","+2,036"
+10,"18,761","17,085","+1,676"
+11,"21,087","19,493","+1,594"
+12,"22,963","21,237","+1,726"
+13,"24,939","23,546","+1,393"
+14,"26,595","25,892",+703
+15,"28,639","27,868",+771
+16,"30,581","32,007","-1,426"
+17,"33,737","33,188",+549
+18,"35,888","36,234",-346
+19,"37,982","38,271",-289
+20,"38,770","42,206","-3,436"
+21,"39,604","46,559","-6,955"
+22,"41,785","50,106","-8,321"
+23,"42,762","53,279","-10,517"
+24,"44,935","55,658","-10,723"
+25,"46,545","58,206","-11,661"
+26,"49,508","59,655","-10,147"
+27,"52,588","62,482","-9,894"
+28,"53,763","65,820","-12,057"
+""
+Objective Timeline
+Time,Team,Objective,Details
+9:50,Team 100,Air Dragon,
+14:02,Neutral,Bot Lane Outer Turret,Team 100's building
+15:22,Neutral,Top Lane Outer Turret,Team 100's building
+16:47,Team 100,Chemtech Dragon,
+16:47,Neutral,Dragon Soul Given,
+17:11,Neutral,Mid Lane Outer Turret,Team 200's building
+17:29,Neutral,Bot Lane Outer Turret,Team 200's building
+18:01,Team 200,Monster,
+19:34,Neutral,Mid Lane Outer Turret,Team 100's building
+20:29,Neutral,Top Lane Inner Turret,Team 100's building
+20:40,Neutral,Bot Lane Inner Turret,Team 100's building
+22:07,Team 200,Fire Dragon,
+22:52,Neutral,Mid Lane Inner Turret,Team 100's building
+23:15,Neutral,Mid Lane Base Turret,Team 100's building
+23:22,Neutral,Inhibitor Building (Mid Lane),Team 100's building
+26:23,Team 200,Monster,
+27:15,Team 200,Fire Dragon,
+27:50,Neutral,Bot Lane Base Turret,Team 100's building
+28:03,Neutral,Inhibitor Building (Bot Lane),Team 100's building
+28:07,Neutral,Mid Lane Nexus Turret,Team 100's building
