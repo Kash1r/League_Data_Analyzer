@@ -412,6 +412,90 @@ def extract_features(match_data: Dict) -> Dict:
         traceback.print_exc()
         return None
 
+def validate_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Validate and clean the DataFrame before saving.
+    
+    Args:
+        df: Input DataFrame to validate
+        
+    Returns:
+        Cleaned and validated DataFrame
+    """
+    if df is None or df.empty:
+        return pd.DataFrame()
+    
+    # Ensure all column names are strings and clean them
+    df.columns = [str(col).strip() for col in df.columns]
+    
+    # Ensure all string columns are properly encoded and cleaned
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col] = df[col].astype(str).str.strip("\"' ").str.replace('\n', ' ').replace('\r', '')
+    
+    # Convert numeric columns, coercing errors to NaN
+    numeric_cols = [col for col in df.columns if col not in ['match_id', 'queue', 'game_mode']]
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', ''), errors='coerce')
+    
+    # Ensure required columns exist
+    required_columns = ['match_id', 'team_100_wins']
+    for col in required_columns:
+        if col not in df.columns:
+            logger.warning(f"Required column '{col}' not found in the processed data")
+            if col == 'team_100_wins':
+                df[col] = 0  # Add default value if missing
+    
+    # Drop duplicate rows based on match_id if it exists
+    if 'match_id' in df.columns:
+        initial_count = len(df)
+        df = df.drop_duplicates(subset=['match_id'])
+        if len(df) < initial_count:
+            logger.warning(f"Removed {initial_count - len(df)} duplicate matches")
+    
+    return df
+
+def save_to_csv(df: pd.DataFrame, file_path: Path) -> bool:
+    """Save DataFrame to CSV with proper error handling and validation.
+    
+    Args:
+        df: DataFrame to save
+        file_path: Path to save the CSV file
+        
+    Returns:
+        bool: True if save was successful, False otherwise
+    """
+    try:
+        # Validate and clean the DataFrame
+        df = validate_dataframe(df)
+        if df.empty:
+            logger.error("Cannot save empty DataFrame")
+            return False
+        
+        # Ensure the directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Save with explicit settings for consistent output
+        df.to_csv(
+            file_path,
+            index=False,
+            encoding='utf-8',
+            lineterminator='\n',
+            quoting=csv.QUOTE_NONNUMERIC,
+            float_format='%.2f',
+            errors='replace'
+        )
+        
+        # Verify the file was created and is not empty
+        if not file_path.exists() or os.path.getsize(file_path) == 0:
+            raise IOError("Failed to write CSV file or file is empty")
+            
+        logger.info(f"Successfully saved {len(df)} records to {file_path}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error saving to {file_path}: {str(e)}", exc_info=True)
+        return False
+
 def process_all_matches(debug: bool = True) -> pd.DataFrame:
     """Process all match files and return a DataFrame with features.
     
@@ -570,8 +654,9 @@ def setup_logging():
 
 if __name__ == "__main__":
     # Set up logging
-    setup_logging()
-    logger = logging.getLogger(__name__)
+    logger = setup_logging()
+    if logger is None:
+        print("Failed to set up logging. Continuing without logging.")
     
     try:
         logger.info("Starting match data processing...")
@@ -582,25 +667,26 @@ if __name__ == "__main__":
         # Ensure output directory exists
         output_dir = Path("processed_data")
         output_dir.mkdir(parents=True, exist_ok=True)
+        output_file = output_dir / "match_features_15min.csv"
         
         # Process all matches
         df = process_all_matches(debug=True)
         
         if df is not None and not df.empty:
-            output_file = output_dir / "match_features_15min.csv"
-            
-            # Save to CSV
-            df.to_csv(output_file, index=False)
-            
-            # Print summary
-            print("\n=== Processing Complete ===")
-            print(f"Total matches processed: {len(df)}")
-            print(f"Output file: {output_file.absolute()}")
-            print("\nSample of processed data:")
-            print(df.head().to_string())
-            
-            # Log summary
-            logger.info(f"Successfully processed {len(df)} matches. Results saved to {output_file}")
+            # Save to CSV using our robust function
+            if save_to_csv(df, output_file):
+                # Print summary
+                print("\n=== Processing Complete ===")
+                print(f"Total matches processed: {len(df)}")
+                print(f"Output file: {output_file.absolute()}")
+                print("\nSample of processed data:")
+                print(df.head().to_string())
+                
+                # Log summary
+                logger.info(f"Successfully processed {len(df)} matches. Results saved to {output_file}")
+            else:
+                logger.error("Failed to save processed data to CSV")
+                print("\nERROR: Failed to save processed data to CSV. Check the logs for details.")
         else:
             error_msg = "No valid match data was processed. Check the input files and debug output."
             print(f"\nERROR: {error_msg}")

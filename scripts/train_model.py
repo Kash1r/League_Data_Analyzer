@@ -11,8 +11,9 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import joblib
 
 # Set up paths
-DATA_DIR = Path("../processed_data")
-MODEL_DIR = Path("../models")
+PROJECT_ROOT = Path(__file__).parent.parent
+DATA_DIR = PROJECT_ROOT / "processed_data"
+MODEL_DIR = PROJECT_ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True, parents=True)
 
 # Set display options for better readability
@@ -21,22 +22,57 @@ pd.set_option('display.width', 1000)
 
 def load_and_clean_data():
     """Load and clean the processed match data."""
-    # Load the data
-    df = pd.read_csv(DATA_DIR / "match_features_15min.csv")
+    # Try to load the processed data file
+    data_file = DATA_DIR / "match_features_15min.csv"
     
-    # Clean column names and data types
-    df.columns = [col.strip() for col in df.columns]
+    if not data_file.exists():
+        raise FileNotFoundError(f"Data file not found: {data_file}")
+        
+    print(f"Loading data from: {data_file}")
+    df = pd.read_csv(data_file, encoding='utf-8')
+    
+    # If the file is empty, raise an error
+    if df.empty:
+        raise ValueError(f"The data file is empty: {data_file}")
+    
+    print(f"Successfully loaded {len(df)} rows")
+    
+    # Clean column names
+    df.columns = [col.strip(", \"'") for col in df.columns]
     
     # Clean string columns
     for col in df.select_dtypes(include=['object']).columns:
-        df[col] = df[col].str.strip(", \"'")
+        if df[col].notna().any():  # Only process if column contains non-null values
+            df[col] = df[col].astype(str).str.strip(", \"'")
     
-    # Convert numeric columns
-    numeric_cols = [col for col in df.columns if col not in ['match_id', 'queue', 'game_mode']]
-    df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors='coerce')
+    # Convert numeric columns (exclude non-numeric columns)
+    non_numeric_cols = ['match_id', 'queue', 'game_mode']
+    numeric_cols = [col for col in df.columns if col not in non_numeric_cols]
     
-    # Drop rows with missing target
+    for col in numeric_cols:
+        if col in df.columns:
+            try:
+                df[col] = pd.to_numeric(df[col].astype(str).str.strip(", \"'"), errors='coerce')
+            except Exception as e:
+                print(f"Warning: Could not convert column '{col}' to numeric: {str(e)}")
+    
+    # Convert team_100_wins to int (it's our target variable)
+    if 'team_100_wins' in df.columns:
+        df['team_100_wins'] = pd.to_numeric(df['team_100_wins'], errors='coerce').fillna(0).astype(int)
+    
+    # Drop rows with missing target values
+    initial_count = len(df)
     df = df.dropna(subset=['team_100_wins'])
+    if len(df) < initial_count:
+        print(f"Dropped {initial_count - len(df)} rows with missing target values")
+    
+    print(f"Final dataset contains {len(df)} matches")
+    
+    # Ensure we have the required columns
+    required_columns = ['team_100_wins']
+    for col in required_columns:
+        if col not in df.columns:
+            raise ValueError(f"Required column '{col}' not found in the data")
     
     return df
 
@@ -165,31 +201,50 @@ def main():
     """Main function to run the model training pipeline."""
     print("Starting model training pipeline...")
     
-    # Step 1: Load and clean data
-    print("\nStep 1: Loading and cleaning data...")
-    df = load_and_clean_data()
-    
-    # Step 2: Create additional features
-    print("\nStep 2: Creating additional features...")
-    df = create_features(df)
-    
-    # Step 3: Explore the data
-    print("\nStep 3: Exploring the data...")
-    importances = explore_data(df)
-    print("\nTop 10 most important features:")
-    print(importances.head(10).to_string())
-    
-    # Step 4: Train and evaluate models
-    print("\nStep 4: Training and evaluating models...")
-    results = train_and_evaluate_models(df)
-    
-    print("\n=== Model Training Complete ===")
-    print(f"Models and artifacts saved to: {MODEL_DIR.absolute()}")
-    
-    # Save the processed dataset with new features
-    processed_file = DATA_DIR / 'processed_matches_with_features.csv'
-    df.to_csv(processed_file, index=False)
-    print(f"\nProcessed dataset with new features saved to: {processed_file}")
+    try:
+        # Step 1: Load and clean data
+        print("\nStep 1: Loading and cleaning data...")
+        df = load_and_clean_data()
+        
+        # Basic data validation
+        if df.empty:
+            raise ValueError("No data loaded. Please check the input files.")
+            
+        print(f"\nData loaded successfully with {len(df)} matches")
+        print("\nFirst few rows of the dataset:")
+        print(df.head())
+        
+        # Step 2: Create additional features
+        print("\nStep 2: Creating additional features...")
+        df = create_features(df)
+        
+        # Step 3: Explore the data
+        print("\nStep 3: Exploring the data...")
+        try:
+            importances = explore_data(df)
+            if importances is not None and not importances.empty:
+                print("\nTop 10 most important features:")
+                print(importances.head(10).to_string())
+        except Exception as e:
+            print(f"Warning: Could not generate feature importances: {str(e)}")
+        
+        # Step 4: Train and evaluate models
+        print("\nStep 4: Training and evaluating models...")
+        results = train_and_evaluate_models(df)
+        
+        # Save the processed dataset with new features
+        processed_file = DATA_DIR / 'processed_matches_with_features.csv'
+        df.to_csv(processed_file, index=False)
+        
+        print("\n=== Model Training Complete ===")
+        print(f"- Models and artifacts saved to: {MODEL_DIR.absolute()}")
+        print(f"- Processed dataset saved to: {processed_file}")
+        
+    except Exception as e:
+        print(f"\n=== Error in model training pipeline ===")
+        print(f"Error: {str(e)}")
+        print("\nPlease check the input data and try again.")
+        raise
 
 if __name__ == "__main__":
     main()
